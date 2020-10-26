@@ -1,5 +1,14 @@
 // const getBtn = document.getElementById('get-btn')
 // const getResultElem = document.getElementById('get-result')
+
+import {hello} from './service.js'
+
+hello()
+
+// import('./service.js').then(response => {
+//     response.default()
+// })
+
 const chat = document.getElementById('chat')
 
 fetch('http://user08.test1.seschool.ru:3000/api/chat/').then(response => {
@@ -40,12 +49,14 @@ postBtn.addEventListener('click', () => {
             message: messageInput.value
         })
     }).then(response => {
-        if (response.ok) return response.json()
-        throw new Error('Bad request')
+        // if (response.ok) 
+        return response.json()
+        // throw new Error('Bad request')
     }).then(response => {
-        // alert(JSON.stringify(response))
+        // alert(response.error)
+        if (response.error) return Promise.reject(response)
     }).catch(err => {
-        console.error(err)
+        console.log(err)
     })
 })
 
