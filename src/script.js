@@ -11,18 +11,35 @@ hello()
 
 const chat = document.getElementById('chat')
 
-fetch('http://user08.test1.seschool.ru:3000/api/chat/').then(response => {
-    if (response.ok) return response.json()
-    throw new Error('Wrong request')
-}).then(messages => {
-    // getResultElem.textContent = JSON.stringify(messages, null, 2)
-    let resultHtml = ''
-    for (const message of messages) {
-        resultHtml = resultHtml + `<li>${message.username}: ${message.message}</li>`
-        // resultHtml = resultHtml + '<li>' + message.username + ': ' + message.message + '</li>'
+// fetch('http://user08.test1.seschool.ru:3000/api/chat/').then(response => {
+//     if (response.ok) return response.json()
+//     throw new Error('Wrong request')
+// }).then(messages => {
+//     // getResultElem.textContent = JSON.stringify(messages, null, 2)
+//     let resultHtml = ''
+//     for (const message of messages) {
+//         resultHtml += `<li>${message.username}: ${message.message}</li>`
+//     }
+//     chat.innerHTML = resultHtml
+// }).catch(err => console.error(err))
+
+async function getMessages() {
+    try {
+        const response = await fetch('http://user08.test1.seschool.ru:3000/api/chat/')
+        if (response.ok) {
+            const messages = await response.json()
+            let resultHtml = ''
+            for (const message of messages) {
+                resultHtml += `<li>${message.username}: ${message.message}</li>`
+            }
+            chat.innerHTML = resultHtml
+        } else throw new Error('Wrong request')
+    } catch (error) {
+        console.error(error)
     }
-    chat.innerHTML = resultHtml
-}).catch(err => console.error(err))
+}
+
+getMessages()
 
 const evtSource = new EventSource("http://user08.test1.seschool.ru:3000/api/chat/subscribe");
 evtSource.onmessage = function (event) {
@@ -36,12 +53,12 @@ const postBtn = document.getElementById('post-btn')
 const nameInput = document.getElementById('name')
 const emailInput = document.getElementById('email')
 const messageInput = document.getElementById('message')
-postBtn.addEventListener('click', () => {
+postBtn.addEventListener('click', async () => {
     fetch('http://user08.test1.seschool.ru:3000/api/chat/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'bearer TOKEN'
+            'Authorization': 'bearer tpSFqiCtPEJPqDxyOvQ3'
         },
         body: JSON.stringify({
             username: nameInput.value,

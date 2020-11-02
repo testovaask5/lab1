@@ -3,6 +3,7 @@ let promise = new Promise((resolve, reject) => {
     setTimeout(() => reject('Reject'), 1000)
 })
 
+// callback
 promise.then(message => {
     console.log(message)
 }).catch(err => {
@@ -21,9 +22,9 @@ function delay(ms, message) {
 //     return delay(1000)
 // }).then(() => {
 //     console.log('Step 2')
-//     return delay(1500)
-// }).then(() => {
-//     console.log('Step 3')
+//     return fetch('http://user08.test1.seschool.ru:3000/api/chat/?offset=1&limit=1')
+// }).then((messages) => {
+//     console.log(messages)
 //     return delay(2000)
 // }).then(() => {
 //     console.log('Step 4')
@@ -37,9 +38,10 @@ async function start() {
     try {
         const mes = await delay(500, 'John')
         console.log('Hello '+ mes)
-        await delay(1000)
+        const message = await fetch('http://user08.test1.seschool.ru:3000/api/chat/?offset=1&limit=1')
+        console.log(message)
         console.log('Step 2')
-        throw new Error('Alarm!!!')
+        // throw new Error('Alarm!!!')
         await delay(1500)
         console.log('Step 3')
         await delay(2000)
@@ -53,14 +55,14 @@ async function start() {
 
 start()
 
-function messageFunc({username = 'John', email, message}) {
-    console.log(username)
-    console.log(email)
-    console.log(message)
-}
+// function messageFunc({username = 'John', email, message}) {
+//     console.log(username)
+//     console.log(email)
+//     console.log(message)
+// }
 
-const message = 'Hello'
-messageFunc({email: 'test@email.com', message})
+// const message = 'Hello'
+// messageFunc({email: 'test@email.com', message})
 
 // setTimeout(() => {
 //     console.log('Step 1')
