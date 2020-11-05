@@ -1,7 +1,7 @@
-(function() {
+let userInfo = (function() {
     let username = 'John'
     let message = 'Hello world'
-    window.userInfo = {
+    return {
         username,
         message
     }
